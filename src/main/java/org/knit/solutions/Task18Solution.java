@@ -1,8 +1,5 @@
 package org.knit.solutions;
 
-import org.junit.runner.JUnitCore;
-import org.junit.runner.Result;
-import org.junit.runner.notification.Failure;
 import org.knit.TaskDescription;
 import org.knit.solutions.Task18.DuplicateZeros;
 
