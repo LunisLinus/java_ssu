@@ -1,6 +1,8 @@
 package org.knit;
 
 import static org.junit.Assert.assertArrayEquals;
+
+import org.junit.Assert;
 import org.junit.Test;
 import org.knit.solutions.Task18.DuplicateZeros;
 
@@ -60,5 +62,10 @@ public class DuplicateZerosTest {
         long duration = System.currentTimeMillis() - start;
 
         System.out.println("Время выполнения большого массива: " + duration + " ms");
+
+        Assert.assertTrue(
+                "Тест не пройден: время выполнения " + duration + " ms > 13 ms",
+                duration <= 13
+        );
     }
 }

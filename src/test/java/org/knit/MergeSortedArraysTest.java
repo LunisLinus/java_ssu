@@ -1,6 +1,8 @@
 package org.knit;
 
 import static org.junit.Assert.assertArrayEquals;
+
+import org.junit.Assert;
 import org.junit.Test;
 import org.knit.solutions.Task19.MergeSortedArrays;
 
@@ -65,5 +67,10 @@ public class MergeSortedArraysTest {
         MergeSortedArrays.merge(nums1, m, nums2, n);
         long duration = System.currentTimeMillis() - start;
         System.out.println("Время выполнения теста производительности: " + duration + " ms");
+
+        Assert.assertTrue(
+                "Тест не пройден: время выполнения " + duration + " ms > 5 ms",
+                duration <= 5
+        );
     }
 }
