@@ -1,7 +1,8 @@
-package org.knit.solutions.Task19;
+package org.knit;
 
 import static org.junit.Assert.assertArrayEquals;
 import org.junit.Test;
+import org.knit.solutions.Task19.MergeSortedArrays;
 
 public class MergeSortedArraysTest {
 
