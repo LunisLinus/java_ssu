@@ -43,7 +43,7 @@ public void duplicateZeros(int[] arr) {
 }
  */
 
-@TaskDescription(taskNumber = 18, taskDescription = "Продублировать каждое вхождение нуля, сдвигая остальные элементы вправо.")
+@TaskDescription(taskNumber = 18, taskDescription = "Продублировать каждое вхождение нуля, сдвигая остальные элементы вправо")
 public class Task18Solution implements Solution {
     @Override
     public void execute() {
