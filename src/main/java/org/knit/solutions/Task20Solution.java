@@ -2,10 +2,16 @@ package org.knit.solutions;
 
 import org.knit.TaskDescription;
 import org.knit.solutions.Task20.config.AppConfig;
+import org.knit.solutions.Task20.model.PasswordEntry;
+import org.knit.solutions.Task20.repository.PasswordRepository;
+import org.knit.solutions.Task20.service.FilePersistenceService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.knit.solutions.Task20.security.MasterPasswordHolder;
 import org.knit.solutions.Task20.service.PasswordService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Scanner;
 
 /*
@@ -101,6 +107,7 @@ PasswordManager/
 
 @TaskDescription(taskNumber = 20, taskDescription = "Password Manager с Spring и шифрованием")
 public class Task20Solution implements Solution {
+    private static final Logger logger = LoggerFactory.getLogger(Task20Solution.class);
     @Override
     public void execute() {
         AnnotationConfigApplicationContext context =
@@ -110,10 +117,13 @@ public class Task20Solution implements Solution {
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             holder.clear();
+            logger.info("Мастер-пароль очищен из памяти (из shutdownHook).");
             System.out.println("Мастер-пароль очищен из памяти (из shutdownHook).");
         }));
 
         PasswordService passwordService = context.getBean(PasswordService.class);
+        PasswordRepository repository = context.getBean(PasswordRepository.class);
+        FilePersistenceService filePersistenceService = context.getBean(FilePersistenceService.class);
 
         Scanner scanner = new Scanner(System.in);
 
@@ -122,6 +132,10 @@ public class Task20Solution implements Solution {
                 ? scanner.nextLine().toCharArray()
                 : System.console().readPassword();
         holder.setMasterPassword(masterPassword);
+
+        List<PasswordEntry> loadedEntries = filePersistenceService.load();
+        loadedEntries.forEach(repository::addEntry);
+        logger.info("Загружено {} записей из файла.", loadedEntries.size());
 
         while (true) {
             System.out.print("> ");
@@ -132,6 +146,7 @@ public class Task20Solution implements Solution {
 
             String[] parts = line.split("\\s+");
             String command = parts[0].toLowerCase();
+            logger.info("Пользовательская команда: {}", line);
 
             switch (command) {
                 case "add":
@@ -166,12 +181,14 @@ public class Task20Solution implements Solution {
                     break;
 
                 case "exit":
+                    logger.info("Пользователь завершает работу (exit).");
                     System.out.println("Завершение работы...");
                     context.close();
                     return;
 
                 default:
                     System.out.println("Неизвестная команда. Доступные команды: add, list, copy, delete, exit.");
+                    logger.warn("Неизвестная команда: {}", command);
             }
         }
     }
