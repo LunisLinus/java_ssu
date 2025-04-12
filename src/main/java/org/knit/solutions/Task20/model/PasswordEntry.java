@@ -9,10 +9,9 @@ public class PasswordEntry {
     private final String encryptedPassword;
 
     @JsonCreator
-    public PasswordEntry(
-            @JsonProperty("site") String site,
-            @JsonProperty("login") String login,
-            @JsonProperty("encryptedPassword") String encryptedPassword) {
+    public PasswordEntry(@JsonProperty("site") String site,
+                         @JsonProperty("login") String login,
+                         @JsonProperty("encryptedPassword") String encryptedPassword) {
         this.site = site;
         this.login = login;
         this.encryptedPassword = encryptedPassword;
