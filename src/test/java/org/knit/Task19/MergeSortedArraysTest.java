@@ -1,4 +1,4 @@
-package org.knit;
+package org.knit.Task19;
 
 import static org.junit.Assert.assertArrayEquals;
 
